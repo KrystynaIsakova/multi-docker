@@ -1,0 +1,21 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  -docker build -t krystyna/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true krystyna/react-test npm test
+
+after_succeess:
+  - docker build -t krystyna/multi-client ./client
+  - docker build -t krystyna/multi-nginx ./nginx
+  - docker build -t krystyna/multi-server ./server
+  - docker build -t krystyna/multi-worker ./worker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --pasword-stdin
+
+  - docker push krystyna/multi-client
+  - docker push krystyna/multi-nginx
+  - docker push krystyna/multi-server
+  - docker push krystyna/multi-worker
