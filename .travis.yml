@@ -13,7 +13,7 @@ after_succeess:
   - docker build -t krystyna/multi-nginx ./nginx
   - docker build -t krystyna/multi-server ./server
   - docker build -t krystyna/multi-worker ./worker
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --pasword-stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
   - docker push krystyna/multi-client
   - docker push krystyna/multi-nginx
